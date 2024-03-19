@@ -14,12 +14,8 @@ import {IERC20Metadata} from "./extensions/IERC20Metadata";
  * This implementation is agnostic to the way tokens are created. This means
  * that a supply mechanism has to be added in a derived contract using {_mint}.
  *
- * TIP: For a detailed writeup see our guide
- * https://forum.openzeppelin.com/t/how-to-implement-erc20-supply-mechanisms/226[How
- * to implement supply mechanisms].
- *
- * The default value of {decimals} is 18. To change this, you should override
- * this function so it returns a different value.
+ * Usually the default value of {decimals} is 18 when implementing with u256.
+ * However we have done an implementation with u64 you can choose the decimal number based on that.
  *
  * We have followed general OpenZeppelin Contracts guidelines: functions revert
  * instead returning `false` on failure. This behavior is nonetheless
@@ -75,8 +71,8 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * be displayed to a user as `5.05` (`505 / 10 ** 2`).
      *
      * Tokens usually opt for a value of 18, imitating the relationship between
-     * Ether and Wei. This is the default value returned by this function, unless
-     * it's overridden.
+     * Ether and Wei. However, in this implementation is had to be overiden to fit 
+     * within u64.
      *
      * NOTE: This information is only used for _display_ purposes: it in
      * no way affects any of the arithmetic of the contract, including
