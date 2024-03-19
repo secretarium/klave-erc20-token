@@ -1,4 +1,5 @@
 <a href="https://klave.com/">
+  <img alt="Klave - KRC20" src="https://klave.com/images/marketplace/krc20.png">
   <h1 align="center">KRC20 - Account based ERC20 like Token Klave implementation</h1>
 </a>
 
@@ -13,9 +14,7 @@
   <a href="#authors"><strong>Authors</strong></a>
 </p>
 
-<p align="center">
-  ![Wasm](https://img.shields.io/badge/Webassembly-5E4EE3?style=for-the-badge&labelColor=white&logo=webassembly&logoColor=5E4EE3) ![AssemblyScript](https://img.shields.io/badge/Assemblyscript-3578C7?style=for-the-badge&labelColor=white&logo=assemblyscript&logoColor=3578C7)
-</p>
+![Wasm](https://img.shields.io/badge/Webassembly-5E4EE3?style=for-the-badge&labelColor=white&logo=webassembly&logoColor=5E4EE3) ![AssemblyScript](https://img.shields.io/badge/Assemblyscript-3578C7?style=for-the-badge&labelColor=white&logo=assemblyscript&logoColor=3578C7)
 
 ## Features
 
