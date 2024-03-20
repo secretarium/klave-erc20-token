@@ -8,6 +8,7 @@
 </p>
 
 <p align="center">
+  <a href="#description"><strong>Description</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
   <a href="#build-locally"><strong>Build Locally</strong></a> ·
@@ -15,6 +16,18 @@
 </p>
 
 ![Wasm](https://img.shields.io/badge/Webassembly-5E4EE3?style=for-the-badge&labelColor=white&logo=webassembly&logoColor=5E4EE3) ![AssemblyScript](https://img.shields.io/badge/Assemblyscript-3578C7?style=for-the-badge&labelColor=white&logo=assemblyscript&logoColor=3578C7)
+
+## Description
+
+Tokens can represent anything from a currency like USD, a metric ton of metal, a concert ticket, and more.
+Standards such as ERC20 have been introduced to make Tokens fungible, meaning that they all have properties that make each Token the same as another Token.
+
+KRC20 inspired from ERC20 implements an API that provides the following functions:
+
+- Transfer tokens from one account to another
+- Get the current token balance of an account
+- Get the total supply of the Token available on the network
+- Approve whether an amount of Token from an account can be spent by a third-party account
 
 ## Features
 
@@ -27,7 +40,7 @@
 
 You can deploy your own version of the Klave Account based token to Klave with one click:
 
-[![Deploy on Klave](https://klave.com/images/deploy-on-klave.svg)]()
+[![Deploy on Klave](https://klave.com/images/deploy-on-klave.svg)](https://app.klave.com/template/github/secretarium/klave-erc20-token)
 
 ## Build Locally
 
