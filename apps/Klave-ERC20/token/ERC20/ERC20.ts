@@ -199,8 +199,14 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      */
     _update(from: address, to: address, value: u64) : void {
         if (from.length == 0) {
-            // Overflow check required: The rest of the code assumes that totalSupply never overflows
-            this._totalSupply += value;
+            // Overflow check: The rest of the code assumes that totalSupply never overflows
+            let overflowCheck = this._totalSupply + value;
+            if(overflowCheck < this._totalSupply)
+            {
+                this._totalSupply = u64.MAX_VALUE;
+            }else {
+                this._totalSupply = overflowCheck;
+            }
         } else {
             let fromBalance = this.account(from).balance;
             if (fromBalance < value) {
