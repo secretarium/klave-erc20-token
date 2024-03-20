@@ -10,7 +10,7 @@ const _loadERC20 = function(): ERC20 {
     if (erc20_table.length == 0) {
         emit("Coin does not exists. Create it first");
         return new ERC20("", "", 0, 0);
-    }    
+    }
     return JSON.parse<ERC20>(erc20_table);
 }
 
@@ -18,26 +18,29 @@ const _saveERC20 = function(erc20 : ERC20): void {
     Ledger.getTable(ERC20Table).set("ALL", JSON.stringify<ERC20>(erc20));
 }
 
-/** 
- * @transaction 
+/**
+ * @transaction
  * @param {CreateInput} - A parsed input argument containing the name, symbol, decimals and total supply of the currency
- *  */
+ **/
 export function createToken(input: CreateInput): void {    
     let erc20_table = Ledger.getTable(ERC20Table).get("ALL");
     if (erc20_table.length != 0) {
         emit("Token already exists");
         return;
     }
-    let erc20 = new ERC20(input.name, input.symbol, input.decimals, input.totalSupply);    
+    let erc20 = new ERC20(input.name, input.symbol, input.decimals, input.totalSupply);
     Ledger.getTable(ERC20Table).set("ALL", JSON.stringify<ERC20>(erc20));
-    emit("Coin created successfully");
+    emit("Token created successfully");
 }
 
 /** 
  * @query return name
- *  */
+ **/
 export function name(): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     emit(`Name is ${erc20.name()}`);
 }
 
@@ -46,6 +49,9 @@ export function name(): void {
  *  */
 export function symbol(): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     emit(`Symbol is ${erc20.symbol()}`);
 }
 
@@ -54,6 +60,9 @@ export function symbol(): void {
  *  */
 export function decimals(): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     emit(`Symbol is ${erc20.decimals()}`);
 }
 
@@ -62,6 +71,9 @@ export function decimals(): void {
  *  */
 export function totalSupply(): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     emit(`Total Supply is ${erc20.totalSupply()}`);
 }
 
@@ -71,11 +83,15 @@ export function totalSupply(): void {
  *  */
 export function balanceOf(owner: string): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     if (owner.length == 0) {
         owner = Context.get('sender');
     }
-    if (!erc20.accountHolder(owner))
+    if (!erc20.accountHolder(owner)) {
         return;
+    }
     emit(`Balance for ${owner} is ${erc20.balanceOf(owner)}`);
 }
 
@@ -85,8 +101,12 @@ export function balanceOf(owner: string): void {
  *  */
 export function transfer(input: TransferInput): void {
     let erc20 = _loadERC20();
-    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.to))
+    if (erc20.name().length == 0) {
         return;
+    }
+    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.to)) {
+        return;
+    }
     erc20.transfer(input.to, input.value);
     _saveERC20(erc20);
 }
@@ -97,8 +117,12 @@ export function transfer(input: TransferInput): void {
  *  */
 export function approve(input: ApproveInput): void {
     let erc20 = _loadERC20();
-    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender))
+    if (erc20.name().length == 0) {
         return;
+    }
+    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender)) {
+        return;
+    }
     erc20.approve(input.spender, input.value);
     _saveERC20(erc20);
 }
@@ -109,11 +133,15 @@ export function approve(input: ApproveInput): void {
  *  */
 export function transferFrom(input: TransferFromInput): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     if (input.from.length == 0) {
         input.from = Context.get('sender');
     }
-    if (!erc20.accountHolder(input.from) || !erc20.accountHolder(input.to))
+    if (!erc20.accountHolder(input.from) || !erc20.accountHolder(input.to)) {
         return;
+    }
     erc20.transferFrom(input.from, input.to, input.value);
     _saveERC20(erc20);
 }
@@ -121,14 +149,18 @@ export function transferFrom(input: TransferFromInput): void {
 /** 
  * @query 
  * @param {AllowanceInput} - A parsed input argument containing the address of the owner and the address of the spender
- *  */
+ **/
 export function allowance(input: AllowanceInput): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     if (input.owner.length == 0) {
         input.owner = Context.get('sender');
     }
-    if (!erc20.accountHolder(input.owner) || !erc20.accountHolder(input.spender))
+    if (!erc20.accountHolder(input.owner) || !erc20.accountHolder(input.spender)) {
         return;
+    }
     emit(`Allowance for ${input.spender} on ${input.owner} account is ${erc20.allowance(input.owner, input.spender)}`);    
 }
 
@@ -138,8 +170,12 @@ export function allowance(input: AllowanceInput): void {
  */
 export function increaseAllowance(input: IncreaseAllowanceInput): void {
     let erc20 = _loadERC20();
-    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender))
+    if (erc20.name().length == 0) {
         return;
+    }
+    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender)) {
+        return;
+    }
     erc20.increaseAllowance(input.spender, input.addedValue);
     _saveERC20(erc20);
 }
@@ -150,8 +186,12 @@ export function increaseAllowance(input: IncreaseAllowanceInput): void {
  */
 export function decreaseAllowance(input: DecreaseAllowanceInput): void {
     let erc20 = _loadERC20();
-    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender))
+    if (erc20.name().length == 0) {
         return;
+    }
+    if (!erc20.accountHolder(Context.get('sender')) || !erc20.accountHolder(input.spender)) {
+        return;
+    }
     erc20.decreaseAllowance(input.spender, input.subtractedValue);
     _saveERC20(erc20);
 }
@@ -162,6 +202,9 @@ export function decreaseAllowance(input: DecreaseAllowanceInput): void {
  */
 export function mint(input: MintInput): void {
     let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     if (input.to.length == 0) {
         input.to = Context.get('sender');
     }
@@ -177,7 +220,10 @@ export function mint(input: MintInput): void {
  * @param {BurnInput} - A parsed input argument containing the address of the sender and the amount of tokens to be destroyed
  */
 export function burn(input: BurnInput): void {
-    let erc20 = JSON.parse<ERC20>(Ledger.getTable(ERC20Table).get("ALL"));
+    let erc20 = _loadERC20();
+    if (erc20.name().length == 0) {
+        return;
+    }
     if (input.from.length == 0) {
         input.from = Context.get('sender');
     }
