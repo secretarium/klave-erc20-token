@@ -20,7 +20,7 @@ const _saveERC20 = function(erc20 : ERC20): void {
 
 /**
  * @transaction
- * @param {CreateInput} - A parsed input argument containing the name, symbol, decimals and total supply of the currency
+ * @param {CreateInput}
  **/
 export function createToken(input: CreateInput): void {    
     let erc20_table = Ledger.getTable(ERC20Table).get("ALL");
@@ -34,7 +34,7 @@ export function createToken(input: CreateInput): void {
 }
 
 /** 
- * @query return name
+ * @query
  **/
 export function name(): void {
     let erc20 = _loadERC20();
@@ -45,7 +45,7 @@ export function name(): void {
 }
 
 /** 
- * @query return symbol
+ * @query
  *  */
 export function symbol(): void {
     let erc20 = _loadERC20();
@@ -56,7 +56,7 @@ export function symbol(): void {
 }
 
 /** 
- * @query return symbol
+ * @query
  *  */
 export function decimals(): void {
     let erc20 = _loadERC20();
@@ -67,7 +67,7 @@ export function decimals(): void {
 }
 
 /** 
- * @query return total supply of the currency
+ * @query
  *  */
 export function totalSupply(): void {
     let erc20 = _loadERC20();
@@ -78,8 +78,8 @@ export function totalSupply(): void {
 }
 
 /** 
- * @query return balances of the currency
- * @param {string} owner - the address of the owner, takes the sender's address if not provided
+ * @query
+ * @param {string}
  *  */
 export function balanceOf(owner: string): void {
     let erc20 = _loadERC20();
@@ -97,7 +97,7 @@ export function balanceOf(owner: string): void {
 
 /** 
  * @transaction 
- * @param {TransferInput} - A parsed input argument containing the "to" address and the value to be paid
+ * @param {TransferInput}
  *  */
 export function transfer(input: TransferInput): void {
     let erc20 = _loadERC20();
@@ -113,7 +113,7 @@ export function transfer(input: TransferInput): void {
 
 /** 
  * @transaction
- * @param {ApproveInput} - A parsed input argument containing the address of the spender and the value to be credited
+ * @param {ApproveInput}
  *  */
 export function approve(input: ApproveInput): void {
     let erc20 = _loadERC20();
@@ -129,7 +129,7 @@ export function approve(input: ApproveInput): void {
 
 /** 
  * @transaction
- * @param {TransferFromInput} - A parsed input argument containing the "from" address, the "to" address and the value to be transferred
+ * @param {TransferFromInput}
  *  */
 export function transferFrom(input: TransferFromInput): void {
     let erc20 = _loadERC20();
@@ -148,7 +148,7 @@ export function transferFrom(input: TransferFromInput): void {
 
 /** 
  * @query 
- * @param {AllowanceInput} - A parsed input argument containing the address of the owner and the address of the spender
+ * @param {AllowanceInput}
  **/
 export function allowance(input: AllowanceInput): void {
     let erc20 = _loadERC20();
@@ -165,8 +165,8 @@ export function allowance(input: AllowanceInput): void {
 }
 
 /**
- * @transaction increase the amount which spender is still allowed to withdraw from owner
- * @param {IncreaseAllowanceInput} - A parsed input argument containing the address of the spender and the amount to be added
+ * @transaction
+ * @param {IncreaseAllowanceInput}
  */
 export function increaseAllowance(input: IncreaseAllowanceInput): void {
     let erc20 = _loadERC20();
@@ -181,8 +181,8 @@ export function increaseAllowance(input: IncreaseAllowanceInput): void {
 }
 
 /**
- * @transaction decrease the amount which spender is still allowed to withdraw from owner
- * @param {DecreaseAllowanceInput} - A parsed input argument containing the address of the spender and the amount to be subtracted
+ * @transaction
+ * @param {DecreaseAllowanceInput}
  */
 export function decreaseAllowance(input: DecreaseAllowanceInput): void {
     let erc20 = _loadERC20();
@@ -197,8 +197,8 @@ export function decreaseAllowance(input: DecreaseAllowanceInput): void {
 }
 
 /**
- * @transaction create new tokens and assign them to the specified address
- * @param {MintInput} - A parsed input argument containing the address of the recipient and the amount of tokens to be created
+ * @transaction
+ * @param {MintInput}
  */
 export function mint(input: MintInput): void {
     let erc20 = _loadERC20();
@@ -216,8 +216,8 @@ export function mint(input: MintInput): void {
 }
 
 /**
- * @transaction Destroy tokens from the specified address
- * @param {BurnInput} - A parsed input argument containing the address of the sender and the amount of tokens to be destroyed
+ * @transaction
+ * @param {BurnInput}
  */
 export function burn(input: BurnInput): void {
     let erc20 = _loadERC20();
