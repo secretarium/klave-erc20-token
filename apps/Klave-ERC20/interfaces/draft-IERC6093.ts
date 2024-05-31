@@ -6,6 +6,7 @@ import {error, address} from "../klave/types"
  * @dev Standard ERC20 Errors
  * Interface of the https://eips.ethereum.org/EIPS/eip-6093[ERC-6093] custom errors for ERC20 tokens.
  */
+@serializable
 export class IERC20Errors {
     /**
      * @dev Indicates an error related to the current `balance` of a `sender`. Used in transfers.

@@ -3,6 +3,7 @@
 import {address} from "../../klave/types"
 import {IERC20Errors} from "../../interfaces/draft-IERC6093";
 
+@serializable
 export class IERC20Events extends IERC20Errors {
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
