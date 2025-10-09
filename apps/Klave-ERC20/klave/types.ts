@@ -1,8 +1,5 @@
 import {Notifier, JSON} from "@klave/sdk"
 
-export type address = string
-export type error = string
-
 @serializable
 export class ErrorMessage {
     success!: boolean;

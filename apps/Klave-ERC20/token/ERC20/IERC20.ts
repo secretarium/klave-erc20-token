@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 // Inspired by OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/IERC20.sol)
-import {address} from "../../klave/types"
 import {IERC20Errors} from "../../interfaces/draft-IERC6093";
 
 @serializable
@@ -11,7 +10,7 @@ export class IERC20Events extends IERC20Errors {
      *
      * Note that `value` may be zero.
      */
-    TransferEvent(from: address, to: address, value: u64) : string {
+    TransferEvent(from: string, to: string, value: u64) : string {
         return `Transfer of ${value} from ${from} to ${to} is now successful`;
     }
 
@@ -19,7 +18,7 @@ export class IERC20Events extends IERC20Errors {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    ApprovalEvent(owner: address, spender: address, value: u64) : string {
+    ApprovalEvent(owner: string, spender: string, value: u64) : string {
         return `Allowance of ${value} by ${owner} to ${spender} is now approved`;
     }
 }
@@ -36,7 +35,7 @@ export interface IERC20 {
     /**
      * @dev Returns the value of tokens owned by `account`.
      */
-    balanceOf(account: address) : u64;
+    balanceOf(account: string) : u64;
 
     /**
      * @dev Moves a `value` amount of tokens from the caller's account to `to`.
@@ -45,7 +44,7 @@ export interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    transfer(to: address, value: u64) : boolean;
+    transfer(to: string, value: u64) : boolean;
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -54,7 +53,7 @@ export interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    allowance(owner : address, spender: address) : u64;
+    allowance(owner : string, spender: string) : u64;
 
     /**
      * @dev Sets a `value` amount of tokens as the allowance of `spender` over the
@@ -71,7 +70,7 @@ export interface IERC20 {
      *
      * Emits an {Approval} event.
      */
-    approve(spender: address, value: u64) : boolean;
+    approve(spender: string, value: u64) : boolean;
 
     /**
      * @dev Moves a `value` amount of tokens from `from` to `to` using the
@@ -82,5 +81,5 @@ export interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    transferFrom(from: address, to: address, value: u64) : boolean;
+    transferFrom(from: string, to: string, value: u64) : boolean;
 }
