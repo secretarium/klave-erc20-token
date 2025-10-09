@@ -2,7 +2,7 @@
 // Inspired from OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/ERC20.sol)
 
 import {JSON} from "@klave/sdk"
-import {address, revert, emit} from "../../klave/types"
+import {revert, emit} from "../../klave/types"
 import {Account} from "../../klave/ERC20/ERC20Structs"
 import {Context} from "@klave/sdk"
 import {IERC20, IERC20Events} from "./IERC20"
@@ -71,7 +71,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * be displayed to a user as `5.05` (`505 / 10 ** 2`).
      *
      * Tokens usually opt for a value of 18, imitating the relationship between
-     * Ether and Wei. However, in this implementation is had to be overiden to fit 
+     * Ether and Wei. However, in this implementation is had to be overiden to fit
      * within u64.
      *
      * NOTE: This information is only used for _display_ purposes: it in
@@ -92,7 +92,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    balanceOf(account: address) : u64 {
+    balanceOf(account: string) : u64 {
         return this.account(account).balance;;
     }
 
@@ -104,7 +104,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * - `to` cannot be the zero address.
      * - the caller must have a balance of at least `value`.
      */
-    transfer(to: address, value: u64) : boolean {
+    transfer(to: string, value: u64) : boolean {
         let owner = Context.get('sender');
         this._transfer(owner, to, value);
         return true;
@@ -113,14 +113,14 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-allowance}.
      */
-    allowance(owner: address, spender: address) : u64 {
+    allowance(owner: string, spender: string) : u64 {
         return this.account(owner).getAllowance(spender);
     }
 
     /**
      * @dev See {IERC20-allowance}.
      */
-    increaseAllowance(spender: address, addedValue: u64) : void {
+    increaseAllowance(spender: string, addedValue: u64) : void {
         let owner = Context.get('sender');
         this.account(owner).addToAllowance(spender, addedValue);
     }
@@ -128,11 +128,11 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-allowance}.
      */
-    decreaseAllowance(spender: address, subtractedValue: u64) : void {
+    decreaseAllowance(spender: string, subtractedValue: u64) : void {
         let owner = Context.get('sender');
         this.account(owner).subtractFromAllowance(spender, subtractedValue);
     }
-        
+
     /**
      * @dev See {IERC20-approve}.
      *
@@ -143,7 +143,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * - `spender` cannot be the zero address.
      */
-    approve(spender: address, value: u64) : boolean {
+    approve(spender: string, value: u64) : boolean {
         let owner = Context.get('sender');
         this._approve(owner, spender, value);
         return true;
@@ -165,7 +165,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * - the caller must have allowance for ``from``'s tokens of at least
      * `value`.
      */
-    transferFrom(from: address, to: address, value: u64) : boolean {
+    transferFrom(from: string, to: string, value: u64) : boolean {
         let spender = Context.get('sender');
         this._spendAllowance(from, spender, value);
         this._transfer(from, to, value);
@@ -176,11 +176,11 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * @dev Moves a `value` amount of tokens from `from` to `to`.
      *
      * This internal function is equivalent to {transfer}, and can be used to
-     * e.g. implement automatic token fees, slashing mechanisms, etc.          
+     * e.g. implement automatic token fees, slashing mechanisms, etc.
      *
      * NOTE: This function is not virtual, {_update} should be overridden instead.
      */
-    _transfer(from: address, to: address, value: u64): void {
+    _transfer(from: string, to: string, value: u64): void {
         if (from.length == 0) {
             revert(this.ERC20InvalidSender(from));
         }
@@ -197,7 +197,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * Emits a {Transfer} event.
      */
-    _update(from: address, to: address, value: u64) : void {
+    _update(from: string, to: string, value: u64) : void {
         if (from.length == 0) {
             // Overflow check: The rest of the code assumes that totalSupply never overflows
             let overflowCheck = this._totalSupply + value;
@@ -223,7 +223,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
             // Overflow not possible: balance + value is at most totalSupply, which we know fits into a u64.
             this.account(to).balance += value;
         }
-        
+
         emit(this.TransferEvent(from, to, value));
     }
 
@@ -235,7 +235,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * NOTE: This function is not virtual, {_update} should be overridden instead.
      */
-    mint(account: address, value: u64) : void {
+    mint(account: string, value: u64) : void {
         if (account.length == 0) {
             revert(this.ERC20InvalidReceiver(account));
         }
@@ -250,7 +250,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * NOTE: This function is not virtual, {_update} should be overridden instead
      */
-    burn(account: address, value: u64) : void {
+    burn(account: string, value: u64) : void {
         if (account.length == 0) {
             revert(this.ERC20InvalidSender(account));
         }
@@ -272,7 +272,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * Overrides to this logic should be done to the variant with an additional `boolean emitEvent` argument.
      */
-    _approve(owner: address, spender: address, value: u64) : void {
+    _approve(owner: string, spender: string, value: u64) : void {
         this._approveEmit(owner, spender, value, true);
     }
 
@@ -286,14 +286,14 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      * Anyone who wishes to continue emitting `Approval` events on the`transferFrom` operation can force the flag to
      * true using the following override:
      * ```
-     * function _approve(owner: address, spender: address, value: u64, boolean) internal virtual override {
+     * function _approve(owner: string, spender: string, value: u64, boolean) internal virtual override {
      *     super._approve(owner, spender, value, true);
      * }
      * ```
      *
      * Requirements are the same as {_approve}.
      */
-    _approveEmit(owner: address, spender: address, value: u64, emitEvent: boolean) : void {
+    _approveEmit(owner: string, spender: string, value: u64, emitEvent: boolean) : void {
         if (owner.length == 0) {
             revert(this.ERC20InvalidApprover(owner));
         }
@@ -314,7 +314,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
      *
      * Does not emit an {Approval} event.
      */
-    _spendAllowance(owner: address, spender: address, value: u64) : void {
+    _spendAllowance(owner: string, spender: string, value: u64) : void {
         let currentAllowance = this.allowance(owner, spender);
         if (currentAllowance != u64.MAX_VALUE) {
             if (currentAllowance < value) {
@@ -327,7 +327,7 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
     /**
      * @dev Returns the account associated with `account`.
      */
-    account(account: address) : Account {
+    account(account: string) : Account {
         for (let i = 0; i < this._accounts.length; i++) {
             if (this._accounts[i].owner == account) {
                 return this._accounts[i];
@@ -340,14 +340,14 @@ export class ERC20 extends IERC20Events implements IERC20, IERC20Metadata {
     /**
      * @dev Returns the account associated with `account`.
      */
-    accountHolder(account: address) : boolean {
+    accountHolder(account: string) : boolean {
         return this.account(account).owner.length != 0;
     }
 
     /**
      * @dev Creates a new account with `account` as the owner and `0` as the balance.
      */
-    createAccount(account: address) : void {
+    createAccount(account: string) : void {
         this._accounts.push(new Account(account, 0));
         emit(`Account for ${account} successfully created`);
     }
